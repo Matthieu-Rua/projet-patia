@@ -16,7 +16,7 @@ public class PddlBatchGenerator {
                 "java",
                 "-cp", System.getProperty("java.class.path"),
                 "sokoban.Parser",
-                "config/" + inputJson,
+                inputJson,
                 outputPddl
             );
 
