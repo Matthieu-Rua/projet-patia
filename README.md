@@ -139,36 +139,65 @@ Axes :
 
 ---
 
-## ⚠️ Remarques
+# 🧠 Résolution du Taquin et des Tours de Hanoï en PDDL (PDDL4J)
 
-- Certains puzzles générés peuvent être **non résolvables** (ce n’est pas filtré par défaut).
-- DFS est volontairement simple pour des raisons pédagogiques (sans amélioration).
-- Les temps de résolution et les courbes reflètent bien les avantages des algorithmes informés (comme A*).
+## 📄 Objectif
+
+Cette partie du projet vise à modéliser et résoudre les puzzles du **taquin** (3x3 et 4x4) et les **tours de Hanoï** (3 disques, 3 piquets) à l’aide du langage **PDDL**.
+
+Le solveur utilisé est **PDDL4J**, en mode ASTAR avec l’**heuristique Fast Forward (n°5)**.
 
 ---
 
-## ✅ Pour tester rapidement
+## 📁 Structure des fichiers PDDL
 
-```bash
-# Résoudre un puzzle manuellement
-python3 solve_npuzzle.py puzzles/puzzles_3x3/npuzzle_3x3_len8_0.txt -a astar -v
+```
+pddl/
+├── hanoi/
+│   ├── domain.pddl       # Domaine PDDL pour les tours de Hanoï
+│   └── p001.pddl         # Problème : 3 disques sur 3 piquets
 
-# Lancer tous les benchmarks
-python3 benchmark_npuzzle.py
+├── taquin/
+│   ├── domain.pddl       # Domaine PDDL pour le taquin
+│   ├── p001.pddl         # Puzzle 3x3 - difficulté faible (len3)
+│   ├── p002.pddl         # Puzzle 3x3 - difficulté moyenne (len8)
+│   ├── p003.pddl         # Puzzle 3x3 - difficulté haute (len16)
+│   ├── p004.pddl         # Puzzle 4x4 - faible (len2)
+│   └── p005.pddl         # Puzzle 4x4 - moyenne (len8)
 
-# Afficher les courbes de performance
-python3 plot_results.py
+├── pddl4j.sh             # Script de lancement PDDL4J
+├── results_taquin.txt    # Résultats détaillés des tests sur le taquin
 ```
 
 ---
 
-## 👨‍🔬 Résumé 
+## ▶️ Lancement des tests
 
-Ce projet montre comment différents algorithmes explorent un espace d’états :
-- BFS explore exhaustivement et lentement
-- DFS est aveugle et inefficace sur des problèmes de recherche avec grands espaces d’états
-- A* combine le meilleur des deux mondes avec une heuristique efficace
+### Exemple de commande pour résoudre un problème :
 
-Il met aussi en évidence :
-- L’importance de la détection de cycles
-- Le rôle critique des heuristiques dans les problèmes NP-complets comme le taquin
+```bash
+./pddl4j.sh
+```
+
+- Choisir **option 1** (HSP)
+- Entrer les chemins vers `domain.pddl` et `pXXX.pddl`
+- Choisir **heuristique 5 (FAST_FORWARD)**
+
+---
+
+## ✅ Résultats observés
+
+- Tous les fichiers `.pddl` ont été instanciés avec succès.
+- Le solveur a trouvé un plan valide pour chaque problème (y compris les taquins 4x4).
+- Les temps de résolution sont faibles (< 0.2s).
+- Aucun échec, timeout ou dépassement mémoire.
+
+Les résultats détaillés sont disponibles dans `results_taquin.txt`.
+
+---
+
+## 💬 Remarques
+
+- Le domaine du taquin inclut toutes les relations `adjacent` nécessaires.
+- Les états initiaux ont été extraits de puzzles générés dans la première partie du projet.
+- Le fichier `domain.pddl` utilisé pour le taquin est compatible avec les positions `pos1` à `pos9` (ou `pos16`).
