@@ -7,8 +7,8 @@ import java.util.*;
 public class SokobanMain {
     public static void main(String[] args) {
         try {
-            String testName = "test26.json";
-            String pddlFile = "p26.pddl";
+            String testName = "test1.json";
+            String pddlFile = "p01.pddl";
             String planFile = "plan.sol";
 
             // 1. Appeler le parser pour générer le .pddl

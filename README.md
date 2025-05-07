@@ -1,6 +1,6 @@
 # Résolution du Taquin (N-Puzzle) avec BFS, DFS et A*
 
-## 🧩 Présentation
+## Présentation
 
 Ce projet implémente la résolution du taquin (n-puzzle) via trois algorithmes de recherche :
 - **BFS** : Recherche en largeur d’abord
@@ -15,7 +15,7 @@ Fonctionnalités :
 
 ---
 
-## 📁 Structure du projet
+## Structure du projet
 
 ```
 .
@@ -32,7 +32,7 @@ Fonctionnalités :
 
 ---
 
-## 🛠️ Dépendances
+## Dépendances
 
 Installez les bibliothèques nécessaires :
 
@@ -42,7 +42,7 @@ pip install pandas matplotlib
 
 ---
 
-## 🔧 1. Génération de puzzles
+## 1. Génération de puzzles
 
 Lancez le générateur avec :
 
@@ -66,7 +66,7 @@ Paramètres :
 
 ---
 
-## 🤖 2. Résolution d’un puzzle
+## 2. Résolution d’un puzzle
 
 Utilisez `solve_npuzzle.py` :
 
@@ -85,7 +85,7 @@ Paramètres :
 
 ---
 
-## 🧪 3. Exécution automatique des tests
+## 3. Exécution automatique des tests
 
 Lancez tous les benchmarks sur les puzzles 3x3 et 4x4 :
 
@@ -101,7 +101,7 @@ Ce script :
 
 ---
 
-## 📊 4. Visualisation des performances
+## 4. Visualisation des performances
 
 Générez les graphiques comparatifs avec :
 
@@ -122,12 +122,12 @@ Axes :
 
 ## 🔍 Analyse des résultats observés
 
-### ✅ A\* :
+### A\* :
 - Très rapide et précis
 - Résout tous les puzzles testés
 - Temps de résolution stable, même avec des puzzles complexes
 
-### ✅ BFS :
+### BFS :
 - Rapide sur les petits puzzles (3x3)
 - Devient lent sur les puzzles 4x4 avec plus de 16 mouvements
 - Temps de résolution croît de manière exponentielle
@@ -139,9 +139,9 @@ Axes :
 
 ---
 
-# 🧠 Résolution du Taquin et des Tours de Hanoï en PDDL (PDDL4J)
+# Résolution du Taquin et des Tours de Hanoï en PDDL (PDDL4J)
 
-## 📄 Objectif
+## Objectif
 
 Cette partie du projet vise à modéliser et résoudre les puzzles du **taquin** (3x3 et 4x4) et les **tours de Hanoï** (3 disques, 3 piquets) à l’aide du langage **PDDL**.
 
@@ -149,7 +149,7 @@ Le solveur utilisé est **PDDL4J**, en mode ASTAR avec l’**heuristique Fast Fo
 
 ---
 
-## 📁 Structure des fichiers PDDL
+## Structure des fichiers PDDL
 
 ```
 pddl/
@@ -171,7 +171,7 @@ pddl/
 
 ---
 
-## ▶️ Lancement des tests
+##  Lancement des tests
 
 ### Exemple de commande pour résoudre un problème :
 
@@ -185,7 +185,7 @@ pddl/
 
 ---
 
-## ✅ Résultats observés
+## Résultats observés
 
 - Tous les fichiers `.pddl` ont été instanciés avec succès.
 - Le solveur a trouvé un plan valide pour chaque problème (y compris les taquins 4x4).
@@ -196,8 +196,133 @@ Les résultats détaillés sont disponibles dans `results_taquin.txt`.
 
 ---
 
-## 💬 Remarques
+## Remarques
 
 - Le domaine du taquin inclut toutes les relations `adjacent` nécessaires.
 - Les états initiaux ont été extraits de puzzles générés dans la première partie du projet.
 - Le fichier `domain.pddl` utilisé pour le taquin est compatible avec les positions `pos1` à `pos9` (ou `pos16`).
+
+
+# Sokoban : Application Web avec Planificateur PDDL intégré
+
+## Objectif
+
+Cette application implémente une **résolution automatique de niveaux de Sokoban** à partir de fichiers `.json` contenant les cartes du jeu.  
+Elle repose sur un **planificateur PDDL4J** intégré au code Java, et affiche la solution dans une **interface graphique web interactive**.
+
+Cette application fonctionne depuis la **VM PATIA**.
+
+---
+
+##  Structure du projet
+
+```
+sokoban-master/
+├── config/                    # Contient les fichiers testXX.json des niveaux Sokoban
+├── domain.pddl               # Domaine PDDL utilisé pour la planification
+├── src/
+│   └── main/java/sokoban/    # Code Java principal de l'application
+│       ├── Parser.java       # Convertit JSON → PDDL
+│       ├── PddlBatchGenerator.java
+│       ├── SokobanMain.java  # Classe principale (point d’entrée)
+│       └── ...               # Autres fichiers nécessaires (Board, Agent...)
+├── plan.sol                  # Plan généré brut par le solveur
+
+```
+
+---
+
+## Fonctionnement de l’application
+
+### Étapes de résolution
+
+1. Un niveau Sokoban est défini dans un fichier `.json` (ex: `test1.json`)
+2. `Parser.java` convertit ce fichier en un fichier problème PDDL `.pddl`
+3. Le solveur PDDL4J est lancé avec `domain.pddl` et le fichier `.pddl`
+4. Le plan est lu et converti en une séquence de mouvements (UDLR)
+5. `SokobanMain.java` lance une interface web et anime la solution
+
+---
+
+## Lancer l'application depuis la VM
+
+### Étape 1 : Compilation du projet
+
+Depuis le dossier `sokoban-master` :
+
+```bash
+mvn clean compile assembly:single
+```
+
+Cela produit le fichier :
+```
+target/sokoban-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
+
+---
+
+### Étape 2 : Lancer l'interface graphique
+
+```bash
+java --add-opens java.base/java.lang=ALL-UNNAMED      -server -Xms2048m -Xmx2048m      -cp target/sokoban-1.0-SNAPSHOT-jar-with-dependencies.jar      sokoban.SokobanMain
+```
+
+Puis, ouvre ton navigateur à l’adresse suivante :
+
+  **http://localhost:8888/test.html**
+
+---
+
+### Pour changer de niveau (fichier `.json`)
+
+1. Ouvre le fichier :  
+   `src/main/java/sokoban/SokobanMain.java`
+
+2. Modifie les lignes suivantes :
+
+```java
+String testName = "test1.json";   // ← remplace par "test26.json" ou autre
+String pddlFile = "p01.pddl";
+String planFile = "plan.sol";
+```
+
+3. Sauvegarde, puis recompile avec :
+
+```bash
+mvn clean compile assembly:single
+```
+
+4. Relance l’interface graphique comme vu plus haut.
+
+---
+
+## Planificateur utilisé
+
+L’application utilise **PDDL4J 4.0.0** installé localement via Maven.  
+Le planificateur est lancé automatiquement via le code Java, en appelant le `.jar` depuis :
+
+```java
+java -jar ../pddl4j-4.0.0.jar -o domain.pddl -f <problem>.pddl -s -e FAST_FORWARD
+```
+
+---
+
+## Résumé des composants clés
+
+| Fichier                     | Rôle                                         |
+|----------------------------|----------------------------------------------|
+| `Parser.java`              | Génère un fichier PDDL depuis un `.json`     |
+| `domain.pddl`              | Définit les actions possibles dans Sokoban   |
+| `SokobanMain.java`         | Gère l'ensemble du processus + interface     |
+| `plan.txt`                 | Contient les mouvements UDLR pour l'animation|
+| `testX.json`               | Cartes Sokoban à résoudre                    |
+
+---
+
+## Conclusion
+
+Cette application démontre l’intégration complète d’un **planificateur PDDL dans une application web Java**, avec génération automatique de problèmes, résolution, et visualisation interactive.  
+Elle répond à la consigne en :
+- exploitant des fichiers `.json` de niveau
+- utilisant PDDL4J
+- lançant une interface web locale dans la VM PATIA
