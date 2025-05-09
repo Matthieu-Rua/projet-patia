@@ -13,7 +13,7 @@ Fonctionnalités :
 3. Comparaison des performances (temps d’exécution)
 4. Visualisation graphique des résultats
 
----
+
 
 ## Structure du projet
 
@@ -27,10 +27,10 @@ Fonctionnalités :
 │   ├── puzzles_3x3/           # Puzzles 3x3 générés
 │   └── puzzles_4x4/           # Puzzles 4x4 générés
 ├── results.csv                # Résultats des benchmarks
-└── graphes/ (optionnel)       # Images des courbes (si générées)
+└── graphes/                   # Images des courbes (si générées)
 ```
 
----
+
 
 ## Dépendances
 
@@ -40,7 +40,7 @@ Installez les bibliothèques nécessaires :
 pip install pandas matplotlib
 ```
 
----
+
 
 ## 1. Génération de puzzles
 
@@ -64,7 +64,7 @@ Paramètres :
 - `-ml` : difficulté (nombre de mouvements de mélange)
 - `-n` : nombre de puzzles à générer
 
----
+
 
 ## 2. Résolution d’un puzzle
 
@@ -83,7 +83,7 @@ Paramètres :
 - `-a` : algorithme (`bfs`, `dfs`, `astar`)
 - `-v` : mode verbeux (affiche l’état initial, le plan et la durée)
 
----
+
 
 ## 3. Exécution automatique des tests
 
@@ -99,7 +99,7 @@ Ce script :
 - Mesure le temps de résolution
 - Sauvegarde les résultats dans `results.csv`
 
----
+
 
 ## 4. Visualisation des performances
 
@@ -118,7 +118,7 @@ Axes :
 - **Y** : temps moyen de résolution (secondes)
 - **Couleurs** : un par algorithme (BFS, DFS, A*)
 
----
+
 
 ## 🔍 Analyse des résultats observés
 
@@ -137,7 +137,7 @@ Axes :
 - Très lent voire inutilisable sur les puzzles 4x4
 - Pas de détection de cycles ni limite de profondeur
 
----
+
 
 # Résolution du Taquin et des Tours de Hanoï en PDDL (PDDL4J)
 
@@ -145,9 +145,9 @@ Axes :
 
 Cette partie du projet vise à modéliser et résoudre les puzzles du **taquin** (3x3 et 4x4) et les **tours de Hanoï** (3 disques, 3 piquets) à l’aide du langage **PDDL**.
 
-Le solveur utilisé est **PDDL4J**, en mode ASTAR avec l’**heuristique Fast Forward (n°5)**.
+Le solveur utilisé est **PDDL4J**, en mode ASTAR avec l’**heuristique Fast Forward**.
 
----
+
 
 ## Structure des fichiers PDDL
 
@@ -165,11 +165,9 @@ pddl/
 │   ├── p004.pddl         # Puzzle 4x4 - faible (len2)
 │   └── p005.pddl         # Puzzle 4x4 - moyenne (len8)
 
-├── pddl4j.sh             # Script de lancement PDDL4J
-├── results_taquin.txt    # Résultats détaillés des tests sur le taquin
 ```
 
----
+
 
 ##  Lancement des tests
 
@@ -180,10 +178,10 @@ pddl/
 ```
 
 - Choisir **option 1** (HSP)
-- Entrer les chemins vers `domain.pddl` et `pXXX.pddl`
+- `hanoi/domain.pddl` et `hanoi/p001.pddl` ou `taquin/domain.pddl` et `taquin/pXXX.pddl` 
 - Choisir **heuristique 5 (FAST_FORWARD)**
 
----
+
 
 ## Résultats observés
 
@@ -194,13 +192,12 @@ pddl/
 
 Les résultats détaillés sont disponibles dans `results_taquin.txt`.
 
----
 
 ## Remarques
 
 - Le domaine du taquin inclut toutes les relations `adjacent` nécessaires.
 - Les états initiaux ont été extraits de puzzles générés dans la première partie du projet.
-- Le fichier `domain.pddl` utilisé pour le taquin est compatible avec les positions `pos1` à `pos9` (ou `pos16`).
+
 
 
 # Sokoban : Application Web avec Planificateur PDDL intégré
@@ -212,7 +209,7 @@ Elle repose sur un **planificateur PDDL4J** intégré au code Java, et affiche l
 
 Cette application fonctionne depuis la **VM PATIA**.
 
----
+
 
 ##  Structure du projet
 
@@ -230,7 +227,7 @@ sokoban-master/
 
 ```
 
----
+
 
 ## Fonctionnement de l’application
 
@@ -242,7 +239,7 @@ sokoban-master/
 4. Le plan est lu et converti en une séquence de mouvements (UDLR)
 5. `SokobanMain.java` lance une interface web et anime la solution
 
----
+
 
 ## Lancer l'application depuis la VM
 
@@ -259,7 +256,7 @@ Cela produit le fichier :
 target/sokoban-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
----
+
 
 ### Étape 2 : Lancer l'interface graphique
 
@@ -271,7 +268,7 @@ Puis, ouvre ton navigateur à l’adresse suivante :
 
   **http://localhost:8888/test.html**
 
----
+
 
 ### Pour changer de niveau (fichier `.json`)
 
@@ -294,7 +291,7 @@ mvn clean compile assembly:single
 
 4. Relance l’interface graphique comme vu plus haut.
 
----
+
 
 ## Planificateur utilisé
 
@@ -305,12 +302,12 @@ Le planificateur est lancé automatiquement via le code Java, en appelant le `.j
 java -jar ../pddl4j-4.0.0.jar -o domain.pddl -f <problem>.pddl -s -e FAST_FORWARD
 ```
 
----
+
 
 ## Résumé des composants clés
 
 | Fichier                     | Rôle                                         |
-|----------------------------|----------------------------------------------|
+|-|-|
 | `Parser.java`              | Génère un fichier PDDL depuis un `.json`     |
 | `domain.pddl`              | Définit les actions possibles dans Sokoban   |
 | `SokobanMain.java`         | Gère l'ensemble du processus + interface     |
@@ -319,10 +316,79 @@ java -jar ../pddl4j-4.0.0.jar -o domain.pddl -f <problem>.pddl -s -e FAST_FORWAR
 
 ---
 
+#  Yet Another SAT Planner - Résolution PDDL via encodage SAT
+
+##  Objectif
+
+Cette partie du projet consiste à implémenter un **planificateur basé sur SAT** permettant de résoudre des problèmes formulés en **langage PDDL**.  
+Le planificateur encode le problème sous forme de formules logiques, puis les résout à l'aide d'un solveur SAT.
+
+---
+
+##  Contenu du dossier
+
+```
+YetAnotherSATPlanner/
+├── src/                         # Fichiers source Java (SATEncoding.java, ...)
+├── yetanothersatplanner.sh     # Script interactif de compilation et test
+├── results_sat.txt             # Résultat de test démontrant un cas fonctionnel
+```
+
+---
+
+##  Fonctionnement
+
+L'utilisateur peut :
+1. Compiler le planificateur avec l'option `1`
+2. Choisir un domaine et un problème PDDL avec l'option `2`
+3. Le planificateur teste toutes les profondeurs de plan de 1 à `MAXSTEPS` (50 par défaut)
+4. Si un plan est trouvé, il est affiché étape par étape
+
+---
+
+##  Exemple fonctionnel (taquin/p001.pddl)
+
+Ce test utilise un problème **simple du taquin (3x3)**.  
+Le planificateur SAT a correctement encodé et résolu ce problème en **1 étape**.
+
+```bash
+Enter domain file [path to the file]: ../taquin/domain.pddl
+Enter problem file [path to the file]: ../taquin/p001.pddl
+
+Encoding : successfully done (7107 clauses, 1 steps)
+=== Extracted Plan Steps ===
+Step 1 : move tile3 pos1 pos4
+```
+
+ Voir le fichier `results_sat.txt` pour le log complet.
+
+---
+
+## Limitations connues
+
+Bien que le planificateur fonctionne pour certains cas simples, il **échoue à résoudre des problèmes pourtant très simples** (ex: `sokoban/p00.pddl`, ou taquin len4).  
+Cela est probablement dû à des **limitations dans l'encodage** :
+- Support partiel de la syntaxe PDDL (ex: préconditions complexes, `not`, effets conditionnels)
+- Prédicats ignorés ou mal interprétés
+- Actions encodées de façon trop simpliste
+
+---
+
+## Pourquoi cela n’a pas été corrigé
+
+Corriger ces limitations nécessiterait :
+- Une **analyse complète du parseur PDDL**
+- Un **debug de l'encodage SAT** clause par clause
+- Du **temps significatif** pour étendre la couverture de PDDL
+
+En fin de projet, ces ajustements n’ont pas pu être réalisés à temps.
+
+---
+
 ## Conclusion
 
-Cette application démontre l’intégration complète d’un **planificateur PDDL dans une application web Java**, avec génération automatique de problèmes, résolution, et visualisation interactive.  
-Elle répond à la consigne en :
-- exploitant des fichiers `.json` de niveau
-- utilisant PDDL4J
-- lançant une interface web locale dans la VM PATIA
+L’implémentation montre un **fonctionnement correct sur des cas simples**, prouvant que :
+- Le pipeline PDDL → SAT → Résolution → Plan fonctionne
+- La structure du solveur est exploitable
+
+Des limitations restent présentes pour des problèmes plus complexes (Sokoban, Taquin long), mais l’approche est bien amorcée.

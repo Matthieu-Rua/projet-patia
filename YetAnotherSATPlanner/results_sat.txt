@@ -1,0 +1,8 @@
+# Résultat du test du SATPlanner avec le problème taquin/p001.pddl
+
+parsing domain file "../taquin/domain.pddl" done successfully
+parsing problem file "../taquin/p001.pddl" done successfully
+
+Encoding : successfully done (7107 clauses, 1 steps)
+=== Extracted Plan Steps ===
+Step 1 : move tile3 pos1 pos4

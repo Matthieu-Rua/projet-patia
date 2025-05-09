@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 # Chargement du fichier CSV
 df = pd.read_csv('results.csv')
 
-# Filtrage : uniquement les solutions trouvées
+
 df = df[df['Time(s)'] > 0] 
 
 # Séparer par taille
