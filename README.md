@@ -2,7 +2,7 @@
 
 ## Présentation
 
-Ce projet implémente la résolution du taquin (n-puzzle) via trois algorithmes de recherche :
+Cette partie du projet implémente la résolution du taquin (n-puzzle) via trois algorithmes de recherche :
 - **BFS** : Recherche en largeur d’abord
 - **DFS** : Recherche en profondeur d’abord
 - **A\*** : Recherche informée avec heuristique (distance de Manhattan)
